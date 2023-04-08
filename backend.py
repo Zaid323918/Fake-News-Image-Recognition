@@ -11,7 +11,7 @@ from google.oauth2 import service_account
 
 app = flask.Flask(__name__)
 
-#Dullah
+#Dullah's code
 def detect_text(file_path):
     os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = '/path/to/api_key.json'
 
