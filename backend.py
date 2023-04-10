@@ -6,14 +6,14 @@ import flask
 from dotenv import load_dotenv, find_dotenv
 
 from google.cloud import vision_v1
-from google.cloud.vision_v1 import enums
+from google.cloud.vision_v1 import enums #might not need this
 from google.oauth2 import service_account
 
 app = flask.Flask(__name__)
 
 #Dullah's code stuff
-def detect_text(file_path):
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = '/path/to/api_key.json'
+def detect_text(file_path): 
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = '/path/to/api_key.json' #path needs fixing and api key needs to be hidden. 
 
     credentials = service_account.Credentials.from_service_account_file('/path/to/api_key.json')
 
