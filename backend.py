@@ -2,14 +2,14 @@ import os
 import io
 import requests
 import json
-import flask
+from flask import Flask, redirect, url_for, flash, render_template, request 
 from dotenv import load_dotenv, find_dotenv
 
 from google.cloud import vision_v1
-from google.cloud.vision_v1 import enums #might not need this
+#from google.cloud.vision_v1 import enums #THIS IS CAUSING ISSUE SO I COMMENTED OUT
 from google.oauth2 import service_account
 
-app = flask.Flask(__name__)
+app = Flask(__name__)
 
 #Dullah's code stuff
 def detect_text(file_path): 
@@ -41,9 +41,30 @@ def detect_text(file_path):
 def nyt_api():
     return
 
+#these render the profile pages for each of us!
+@app.route('/gabe')
+def gabe():
+    return render_template('gabe.html')
+
+@app.route('/dullah')
+def dullah():
+    return render_template('dullah.html')
+
+@app.route('/brian')
+def brian():
+    return render_template('brian.html')
+
+@app.route('/zaid')
+def zaid():
+    return render_template('zaid.html')
+
+@app.route('/zach')
+def zach():
+    return render_template('zach.html')
+
 @app.route('/')
 def main():
     detect_text('/path/to/image.jpg')
-    return flask.render_template('index.html')
+    return render_template('index.html')
 
 app.run()
