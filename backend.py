@@ -4,12 +4,16 @@ import requests
 import json
 from flask import Flask, redirect, url_for, flash, render_template, request 
 from dotenv import load_dotenv, find_dotenv
-
+from werkzeug.utils import secure_filename
 from google.cloud import vision_v1
 #from google.cloud.vision_v1 import enums #THIS IS CAUSING ISSUE SO I COMMENTED OUT
 from google.oauth2 import service_account
 
+UPLOAD_FOLDER = './uploads'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 #Dullah's code stuff
 def detect_text(file_path): 
@@ -64,7 +68,16 @@ def zach():
 
 @app.route('/')
 def main():
-    detect_text('/path/to/image.jpg')
     return render_template('index.html')
+
+@app.route('/upload', methods = ["GET", "POST"])
+def handle_file():
+    img = request.files['input-image']
+    if img.filename == '':
+        flash('Please upload an image before submitting')
+        return redirect(url_for('main'))
+    img_filename = secure_filename(img.filename)
+    #detect_text(img)
+    return redirect(url_for('main'))
 
 app.run()
