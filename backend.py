@@ -38,8 +38,27 @@ def detect_text(file_path):
     return
 
 #Zach
-def nyt_api():
+def nyt_api(text):
+    '''Search for NYT article by body text.'''
     NYT_REQUEST = 'https://api.nytimes.com/svc/search/v2/articlesearch.json'
+    api_key = os.getenv('NYT_API_KEY')
+    headers = {
+        'Accept': 'application/json'
+    }
+    response = requests.get(
+        NYT_REQUEST,
+        headers=headers,
+        params={
+            'q': text,
+            'api-key': api_key
+        }
+    )
+    json_data = response.json()
+    nyt_article_link = ''
+    if (json_data['response']['docs'] == []):
+        nyt_article_link = 'https://www.youtube.com/watch?v=xvFZjo5PgG0'
+    else:
+        nyt_article_link = str(json_data['response']['docs'][0]['web_url'])
 
     return
 
