@@ -1,82 +1,104 @@
 body {
     background-color: #15202b;
     color: #fff;
-}
-
-.profile {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    font-family: Arial, sans-serif;
 }
 
 a {
     color: #1da1f2;
 }
 
-input[type="file"] {
-    background-color: #1c2938;
-    color: #fff;
-}
-
 textarea {
-    background-color: #1c2938;
+        background-color: #1c2938;
+        color: #fff;
+}
+    
+.profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+}
+    
+.profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+    
+.profile-name {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+    
+.profile-bio {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+    
+.profile-social {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+    
+.profile-social a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    border-radius: 50%;
+    background-color: #1da1f2;
     color: #fff;
+    text-decoration: none;
+}
+    
+.profile-social a:hover {
+    background-color: #0d8bf0;
+}
+    
+.profile-social a i {
+    font-size: 20px;
 }
 
 h1 {
-    font-size: 35px;
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
+    font-size: 40px;
+    font-weight: bold;
     text-align: center;
     color: #1b076a;
     background-color: rgb(158, 159, 181);
     align-items: center;
+    margin-bottom: 40px;
 }
-
+    
 h2 {
-    font-size: 28px;
-    margin: 0;
-    position: relative;
-    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
 }
-
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #192734;
-    padding: 20px;
-    position: sticky;
-    top: 0;
-    z-index: 1;
+    
+.section {
+    margin-bottom: 40px;
 }
-
-nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
+    
+.section-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
 }
-
-nav li {
-    margin-right: 10px;
+    
+.section-content {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 20px;
 }
-
-nav a {
-    text-decoration: none;
-    color: #fff;
-    padding: 10px;
-    border-radius: 5px;
-    transition: background-color 0.2s ease;
-}
-
-nav a:hover {
-    background-color: #1c2938;
-}
-  
+    
 .button {
     margin-top: 20px;
     padding: 10px 20px;
