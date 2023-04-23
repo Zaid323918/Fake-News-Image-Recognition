@@ -1,51 +1,36 @@
 import os
-import io
 import requests
 import json
 from flask import Flask, redirect, url_for, flash, render_template, request 
 from dotenv import load_dotenv, find_dotenv
-from werkzeug.utils import secure_filename
-from google.cloud import vision_v1
-#from google.cloud.vision_v1 import enums #THIS IS CAUSING ISSUE SO I COMMENTED OUT
-from google.oauth2 import service_account
+from google.cloud import vision
 
-UPLOAD_FOLDER = './uploads'
+load_dotenv(find_dotenv())
+
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'fake-article-detect-15937-caffac9b5baf.json'
+API_KEY = os.getenv('NYT_API_KEY')
+
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.secret_key = 'potato_jackson_lemon_stevey'
 
-#Dullah's code stuff
-def detect_text(file_path): 
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = '/path/to/api_key.json' #path needs fixing and api key needs to be hidden. 
-
-    credentials = service_account.Credentials.from_service_account_file('/path/to/api_key.json')
-
-    client = vision_v1.ImageAnnotatorClient(credentials=credentials)
-
-    with io.open(file_path, 'rb') as image_file:
-        content = image_file.read()
-
-    image = vision_v1.types.Image(content=content)
-
+'''Google Cloud Vision API used to extract text from article image'''
+def detect_text(file_name): 
+    
+    client = vision.ImageAnnotatorClient()
+    content = file_name.read()
+    image = vision.Image(content=content)
     response = client.text_detection(image=image)
     texts = response.text_annotations
 
-    print('Texts:')
-    for text in texts:
-        print('\n"{}"'.format(text.description))
+    text_data = texts[0].description
+    print(text_data)
+    return text_data
 
-        vertices = (['({},{})'.format(vertex.x, vertex.y)
-                    for vertex in text.bounding_poly.vertices])
-
-        print('bounds: {}'.format(','.join(vertices)))
-    return
-
-#Zach
+'''Search for NYT article by body text.'''
 def nyt_api(text):
-    '''Search for NYT article by body text.'''
     NYT_REQUEST = 'https://api.nytimes.com/svc/search/v2/articlesearch.json'
-    api_key = os.getenv('NYT_API_KEY')
     headers = {
         'Accept': 'application/json'
     }
@@ -54,7 +39,7 @@ def nyt_api(text):
         headers=headers,
         params={
             'q': text,
-            'api-key': api_key
+            'api-key': API_KEY
         }
     )
     json_data = response.json()
@@ -66,7 +51,23 @@ def nyt_api(text):
 
     return
 
-#these render the profile pages for each of us!
+'''Routing for home page'''
+@app.route('/')
+def main():
+    return render_template('index.html')
+
+@app.route('/upload', methods = ["GET", "POST"])
+def handle_file():
+    img = request.files['input-image']
+    if img.filename == '':
+        flash('Please upload an image before submitting')
+        return redirect(url_for('main'))
+    
+    img_text = detect_text(img)
+
+    return redirect(url_for('main'))
+
+'''Profile Pages for Group Members'''
 @app.route('/gabe')
 def gabe():
     return render_template('gabe.html')
@@ -86,19 +87,5 @@ def zaid():
 @app.route('/zach')
 def zach():
     return render_template('zach.html')
-
-@app.route('/')
-def main():
-    return render_template('index.html')
-
-@app.route('/upload', methods = ["GET", "POST"])
-def handle_file():
-    img = request.files['input-image']
-    if img.filename == '':
-        flash('Please upload an image before submitting')
-        return redirect(url_for('main'))
-    img_filename = secure_filename(img.filename)
-    #detect_text(img)
-    return redirect(url_for('main'))
 
 app.run()
