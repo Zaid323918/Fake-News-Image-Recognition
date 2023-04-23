@@ -95,7 +95,8 @@ nav a:hover {
 }
 
 .project-description h2 {
-    margin: 0;
+    margin-right: 0;
+    text-align: center;
 }
 
 .form-container {
