@@ -18,7 +18,14 @@
     <div class="scroll-container">
         <div class="scroll-page">
             <h1>Image Recognition for Detecting Misinformation [I.R.D.M.]</h1>
-            <h2>Our Team:  </h2>
+            <div class = "container">
+              <div class = "image-container">
+                <img src="{{ url_for('static', filename='irdm.jpg') }}" alt="irdm logo" width="505" height="250">
+              </div>
+            <div class="text-container">
+            <br>
+            <br>
+            <h2 style="text-align: center">Our Team</h2>
             <nav>
                 <ul>
                   <li><a href="/gabe">Gabe</a></li>
@@ -29,7 +36,9 @@
           
                 </ul>
             </nav>  
-            <button class="button" onclick="scrollToNext()">Next</button>      
+            <button class="button" onclick="scrollToNext()">Next</button>
+            </div>
+          </div>      
         </div>
         <div class="scroll-page">
             <div class="container">
