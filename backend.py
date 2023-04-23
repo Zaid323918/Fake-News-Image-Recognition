@@ -19,14 +19,13 @@ links = ['init']
 
 '''Google Cloud Vision API used to extract text from article image.'''
 def detect_text(file_name): 
-    
     client = vision.ImageAnnotatorClient()
     content = file_name.read()
     image = vision.Image(content=content)
     response = client.text_detection(image=image)
     texts = response.text_annotations
-
     text_data = texts[0].description
+    
     return text_data
 
 '''Searches for NYT article by body text.'''
