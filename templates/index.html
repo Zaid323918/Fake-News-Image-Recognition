@@ -63,7 +63,17 @@
                 </div>
                 <div class="output-box">
                   <h2>Is This News Real or Not?</h2>
-                  <textarea name="output-text"></textarea>
+                  {% if results[0] == 'init' %}
+                  {% elif results[0] == 'FAKE NEWS!' %}
+                    <h3 style="color: red;">FAKE NEWS!</h3>
+                  {% else %}
+                  <h3 style="color: coral;">Possible article(s):</h3>
+                  <ul>
+                    {% for i in results %}
+                      <li style="color: cyan;">{{i}}</li>
+                    {% endfor %}
+                  </ul>
+                  {% endif %}
                 </div>
             </div>  
             <button class="button" onclick="scrollToNext()">Next</button> 

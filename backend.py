@@ -1,6 +1,7 @@
 import os
 import requests
 import json
+import string
 from flask import Flask, redirect, url_for, flash, render_template, request 
 from dotenv import load_dotenv, find_dotenv
 from google.cloud import vision
@@ -14,6 +15,7 @@ API_KEY = os.getenv('NYT_API_KEY')
 
 app = Flask(__name__)
 app.secret_key = 'potato_jackson_lemon_stevey'
+links = ['init']
 
 '''Google Cloud Vision API used to extract text from article image'''
 def detect_text(file_name): 
@@ -45,16 +47,16 @@ def nyt_api(text):
     json_data = response.json()
     nyt_article_link = ''
     if (json_data['response']['docs'] == []):
-        nyt_article_link = 'https://www.youtube.com/watch?v=xvFZjo5PgG0'
+        nyt_article_link = 'fake'
     else:
         nyt_article_link = str(json_data['response']['docs'][0]['web_url'])
 
-    return
+    return nyt_article_link
 
 '''Routing for home page'''
 @app.route('/')
 def main():
-    return render_template('index.html')
+    return render_template('index.html', results = links)
 
 @app.route('/upload', methods = ["GET", "POST"])
 def handle_file():
@@ -63,8 +65,19 @@ def handle_file():
         flash('Please upload an image before submitting')
         return redirect(url_for('main'))
     
+    global nyt_detect
+    global links
+    links.clear()
     img_text = detect_text(img)
-
+    img_text = img_text.replace('\n', ' ')
+    x = -50
+    for i in range(3):
+        temp = nyt_api(img_text[x:])
+        if temp != 'fake' and temp not in links:
+            links.append(temp)
+        x = x - 19
+    if len(links) == 0:
+        links.append('FAKE NEWS!')
     return redirect(url_for('main'))
 
 '''Profile Pages for Group Members'''
