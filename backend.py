@@ -45,11 +45,11 @@ def nyt_api(text):
     json_data = response.json()
     nyt_article_link = ''
     if (json_data['response']['docs'] == []):
-        nyt_article_link = 'https://www.youtube.com/watch?v=xvFZjo5PgG0'
+        nyt_article_link = 'https://www.contracts-for-difference.com/wp-content/uploads/2019/04/fake-news-1024x577.jpg'
     else:
         nyt_article_link = str(json_data['response']['docs'][0]['web_url'])
 
-    return
+    return nyt_article_link
 
 '''Routing for home page'''
 @app.route('/')
