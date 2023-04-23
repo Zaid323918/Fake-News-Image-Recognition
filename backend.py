@@ -6,18 +6,18 @@ from flask import Flask, redirect, url_for, flash, render_template, request
 from dotenv import load_dotenv, find_dotenv
 from google.cloud import vision
 
-load_dotenv(find_dotenv())
+load_dotenv(find_dotenv()) #Finds .env file 
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'fake-article-detect-15937-caffac9b5baf.json'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'fake-article-detect-15937-caffac9b5baf.json' #Replace with the name of your json file
 API_KEY = os.getenv('NYT_API_KEY')
 
 app = Flask(__name__)
-app.secret_key = 'potato_jackson_lemon_stevey'
+app.secret_key = 'potato_jackson_lemon_stevey' #Required for Flask to keep sessions
 links = ['init']
 
-'''Google Cloud Vision API used to extract text from article image'''
+'''Google Cloud Vision API used to extract text from article image.'''
 def detect_text(file_name): 
     
     client = vision.ImageAnnotatorClient()
@@ -27,10 +27,9 @@ def detect_text(file_name):
     texts = response.text_annotations
 
     text_data = texts[0].description
-    print(text_data)
     return text_data
 
-'''Search for NYT article by body text.'''
+'''Searches for NYT article by body text.'''
 def nyt_api(text):
     NYT_REQUEST = 'https://api.nytimes.com/svc/search/v2/articlesearch.json'
     headers = {
@@ -41,15 +40,16 @@ def nyt_api(text):
         headers=headers,
         params={
             'q': text,
+            'begin_date': '19500101', 
             'api-key': API_KEY
         }
     )
     json_data = response.json()
     nyt_article_link = ''
-    if (json_data['response']['docs'] == []):
+    if (json_data['response']['docs'] == []): #No article found
         nyt_article_link = 'fake'
     else:
-        nyt_article_link = str(json_data['response']['docs'][0]['web_url'])
+        nyt_article_link = str(json_data['response']['docs'][0]['web_url']) #The URL of the article found
 
     return nyt_article_link
 
@@ -65,18 +65,20 @@ def handle_file():
         flash('Please upload an image before submitting')
         return redirect(url_for('main'))
     
-    global nyt_detect
     global links
     links.clear()
     img_text = detect_text(img)
     img_text = img_text.replace('\n', ' ')
-    x = -50
+    x = -37
     for i in range(3):
-        temp = nyt_api(img_text[x:])
+        while img_text[x] != ' ': #Ensuring query string is complete words
+            x = x - 1
+        query_text = '"' + img_text[x:] + '"' #Adding quotation marks to query string 
+        temp = nyt_api(query_text) #Searches for potential matches using different amounts of text to increase chances of success
         if temp != 'fake' and temp not in links:
             links.append(temp)
         x = x - 19
-    if len(links) == 0:
+    if len(links) == 0: #No articles found by the NYT API
         links.append('FAKE NEWS!')
     return redirect(url_for('main'))
 
