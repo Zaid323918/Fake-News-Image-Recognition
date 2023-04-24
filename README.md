@@ -8,6 +8,8 @@
 - Zachary Sotny
 
 ## Description
+Grover is a neural network that is able to classify text as machine written or human-written. Grover can not determine if the text is fake or real.
+Our goal is to provide a way for users to verify if an image of an article is fake or real. Currently, only images from New York Times can be verified.
 Our project uses Google Cloud Vision API and New York Times API to verify images of New York Times articles found on social media. Users can find an image of an article and upload it
 using the front end. The backend takes this image and uses Google Cloud Vision to detect text. The New York Times API is then used to query this text and to
 see if articles with that text exist in the New York Times database. A link to the article will be provided if the text is found in the article. If no link is found,
