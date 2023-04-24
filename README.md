@@ -48,3 +48,6 @@ the image is considered fake news.
 * The NYT API has a limit on the number of calls that can be made every minute so allow a few moments between testing different images. If too many calls are made, you will recieve a 500 error. Simply restart the website and wait a few moments before submitting another image. 
 * This code will only work for articles that are from the New York Times. APIs for other news sites could be added in the future. 
 * If the image of the article has miscellaneous information at the bottom, it may cause issues for the NYT API.
+
+### Proposal
+We detailed our solution in a short research proposal utilizing IEEE's conference paper format. Included in it are the reasons for developing our solution as well as a quick rundown of the various components included in our project. 
