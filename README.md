@@ -51,4 +51,5 @@ the image is considered fake news.
 
 ### Proposal
 We detailed our solution in a short research proposal utilizing IEEE's conference paper format. Included in it are the reasons for developing our solution as well as a quick rundown of the various components included in our project. 
+
 Paper URL: 
