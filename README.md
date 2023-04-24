@@ -8,9 +8,10 @@
 - Zachary Sotny
 
 ## Description
-Our project focuses on optimizing the training model of the already developed NLP network, Grover, to increase its accuracy in recognizing examples of fake news in the hopes of preventing the widespread transmission of fallacious news content.
-
-To approach this, we propose manipulating the coefficients of the connecting edges of the hidden layers to better calibrate the network for any commonalities between human written facts to machine written fake news. With our limited resources, we are hoping to test our model on generated articles from other AI models like ChatGPT and Rytr.
+Our project uses Google Cloud Vision API and New York Times API to verify images of New York Times articles found on social media. Users can find an image of an article and upload it
+using the front end. The backend takes this image and uses Google Cloud Vision to detect text. The New York Times API is then used to query this text and to
+see if articles with that text exist in the New York Times database. A link to the article will be provided if the text is found in the article. If no link is found,
+the image is considered fake news.
 
 ## How to Run This On Your Machine
 
