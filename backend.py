@@ -10,7 +10,7 @@ load_dotenv(find_dotenv()) #Finds .env file
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'double-vehicle-402919-5aff48681252.json.json' #Replace with the name of your json file
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'double-vehicle-402919-5aff48681252.json' #Replace with the name of your json file
 API_KEY = os.getenv('NYT_API_KEY')
 
 app = Flask(__name__)
